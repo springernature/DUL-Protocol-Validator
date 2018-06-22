@@ -1,0 +1,210 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "$id": "/properties/uuid",
+      "type": "string",
+      "description": "This identifies a unique message irrespective of its content. It is different from the Transaction ID which stays the same for each transaction (i.e. user behaviour)",
+      "examples": [
+        "e583eca0-fdf4-45ff-8c8e-2c3ce1196ea7"
+      ]
+    },
+    "message-type": {
+      "$id": "/properties/message-type",
+      "type": "string",
+      "description": "Describes the type of the message in terms of its compliance with COUNTER rules. JW/PN agreed on this value in the call. Alternative value would be “counter-summary”.",
+      "examples": [
+        "counter-transaction"
+      ],
+      "enum": [
+        "counter-transaction",
+        "counter-summary"
+      ]
+    },
+    "callback": {
+      "$id": "/properties/callback",
+      "type": "string",
+      "description": " A URL that should be POSTed to when the message has been fully processed",
+      "pattern": "^https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)$",
+      "examples": [
+        "http://url.com/callback"
+      ]
+    },
+    "message": {
+      "$id": "/properties/message",
+      "type": "object",
+      "properties": {
+        "Transaction_ID": {
+          "$id": "/properties/message/properties/Transaction_ID",
+          "type": "string",
+          "description": "Allows for tracking of transaction and audit trail.  Must be unique.  Could allow for a “delete” action to be sent. The same content always maps to the same UUID. UUID specific to transaction.",
+          "examples": [
+            "a1a0fbd7-d280-4ab3-94fe-b060758aa28b"
+          ]
+        },
+        "Transaction_DateTime": {
+          "$id": "/properties/message/properties/Transaction_DateTime",
+          "type": "string",
+          "description": "Used for determine month to report usage in.  Also used in double-click filtering and unique item filtering. Timestamp should be UTC.",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$",
+          "examples": [
+            "2017-06-06T12:28:57.001Z"
+          ]
+        },
+        "Transaction_Type": {
+          "$id": "/properties/message/properties/Transaction_Type",
+          "type": "string",
+          "description": "Used to assign the appropriate metric type.  Options are 'Request', 'Access-Denied'",
+          "examples": [
+            "Request"
+          ],
+          "enum": [
+            "Request",
+            "Access-Denied"
+          ]
+        },
+        "Transaction_Access_Type": {
+          "$id": "/properties/message/properties/Transaction_Access_Type",
+          "type": "string",
+          "description": "Permitted values are: Controlled; OA_Gold; and Other_Free_to_Read.",
+          "examples": [
+            "Controlled"
+          ],
+          "enum": [
+            "Controlled",
+            "OA_Gold",
+            "Other_Free_to_Read"
+          ]
+        },
+        "Transaction_Access_Method": {
+          "$id": "/properties/message/properties/Transaction_Access_Method",
+          "type": "string",
+          "description": "'Regular' or 'TDM'",
+          "examples": [
+            "Regular"
+          ],
+          "enum": [
+            "Regular",
+            "TDM"
+          ]
+        },
+        "User_Agent": {
+          "$id": "/properties/message/properties/User_Agent",
+          "type": "string",
+          "description": "Used for Robot/Crawler detection",
+          "examples": [
+            "Not Robot/Crawler"
+          ]
+        },
+        "Session_ID": {
+          "$id": "/properties/message/properties/Session_ID",
+          "type": "string",
+          "description": "Used for double-click filtering and unique-item filtering. Note that if a session identifier is not available, the sender will create one by encrypting the user agent and the IP address. The encryption technique should be non-reversible but the same useragent+IP should always generate the same value.",
+          "examples": [
+            "7bda1ef4a68d03aa8eb8c9aba4366a512fffbbc613322e93535c0cdb679a5272"
+          ]
+        },
+        "Referring_URL": {
+          "$id": "/properties/message/properties/Referring_URL",
+          "type": "string",
+          "description": "Used in checking for double-clicks (the same link clicked within 30 seconds)",
+          "pattern": "^https?:\/\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)$",
+          "examples": [
+            "http://url.com/referrer"
+          ]
+        },
+        "Encoded_IP": {
+          "$id": "/properties/message/properties/Encoded_IP",
+          "type": "string",
+          "description": "Used in advanced robot detection. Should include a salt to prevent others from learning the mapping.",
+          "examples": [
+            "7bda1ef4a68d03aa8eb8c9aba4366a512fffbbc613322e93535c0cdb679a5272"
+          ]
+        },
+        "IP_ClassC": {
+          "$id": "/properties/message/properties/IP_ClassC",
+          "type": "string",
+          "description": "ClassC of the user’s IP address, if available.  Used to help identify the organization the user is affiliated with.",
+          "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+          "examples": [
+            "10.20.30"
+          ]
+        },
+        "Item_Platform": {
+          "$id": "/properties/message/properties/Item_Platform",
+          "type": "string",
+          "description": "The platform “name” of the sender.  Used in COUNTER reports provided by the receiver to identify the site where the usage took place.",
+          "examples": [
+            "Mendeley"
+          ]
+        },
+        "Item_ID": {
+          "$id": "/properties/message/properties/Item_ID",
+          "type": "object",
+          "description": "The platform “name” of the sender.  Used in COUNTER reports provided by the receiver to identify the site where the usage took place.",
+          "properties": {
+            "type": {
+              "$id": "/properties/message/properties/Item_ID/properties/type",
+              "type": "string",
+              "examples": [
+                "DOI"
+              ],
+              "enum": [
+                "DOI"
+              ]
+            },
+            "value": {
+              "$id": "/properties/message/properties/Item_ID/properties/value",
+              "type": "string",
+              "examples": [
+                "10.1186/s13326-018-0176-y"
+              ]
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ]
+        },
+        "Article_Version": {
+          "$id": "/properties/message/properties/Article_Version",
+          "type": "string",
+          "description": "The version of the content.",
+          "examples": [
+            "2"
+          ]
+        },
+        "Org_ID": {
+          "$id": "/properties/message/properties/Org_ID",
+          "type": "array",
+          "description": "If the identity of the user’s organization is known, include one or more Org_ID element using the type & value elements.",
+          "items": {
+            "$id": "/properties/message/properties/Org_ID/items",
+            "type": "string",
+            "examples": [
+              "1234"
+            ]
+          }
+        }
+      },
+      "required": [
+        "Transaction_ID",
+        "Transaction_Type",
+        "Transaction_DateTime",
+        "Transaction_Access_Method",
+        "User_Agent",
+        "Session_ID",
+        "Encoded_IP",
+        "IP_ClassC",
+        "Item_Platform",
+        "Item_ID"
+      ]
+    }
+  },
+  "required": [
+    "uuid",
+    "message"
+  ]
+}
+
