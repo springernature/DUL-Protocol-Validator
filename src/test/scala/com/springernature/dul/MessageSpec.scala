@@ -84,7 +84,6 @@ class MessageSpec extends FlatSpec with Matchers {
                             |  },
                             |  "Article_Version": "1",
                             |  "Transaction_Access_Type": "Controlled",
-                            |  "Org_ID": [],
                             |  "Transaction_DateTime": "2018-07-06T14:17:50.452Z",
                             |  "Referring_URL": "http://foo.com/bar",
                             |  "IP_ClassC": "123.21.121",
