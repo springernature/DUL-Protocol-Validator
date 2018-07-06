@@ -12,6 +12,8 @@ object ItemID {
     override val value: String = "DOI"
   }
 
+  val values: Seq[ItemType] = Seq(ItemTypeDOI)
+
 }
 
 

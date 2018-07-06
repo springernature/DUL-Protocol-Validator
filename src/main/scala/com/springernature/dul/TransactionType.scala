@@ -14,4 +14,5 @@ object TransactionType {
     override val value: String = "Request"
   }
 
+  val values: Seq[TransactionType] = Seq(Denied, Request)
 }

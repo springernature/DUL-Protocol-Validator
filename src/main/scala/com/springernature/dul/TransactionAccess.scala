@@ -15,6 +15,7 @@ object TransactionAccess {
       override val value: String = "Regular"
     }
 
+    val values: Seq[TransactionAccess.Method] = Seq(TDM, Regular)
   }
 
   sealed trait Type {
@@ -35,6 +36,7 @@ object TransactionAccess {
       override val value: String = "Other_Free_to_Read"
     }
 
+    val values: Seq[TransactionAccess.Type] = Seq(Controlled, OAGold, OtherFreeToRead)
   }
 }
 

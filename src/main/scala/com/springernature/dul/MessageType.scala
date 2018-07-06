@@ -1,5 +1,9 @@
 package com.springernature.dul
 
+sealed trait MessageType {
+  val value: String
+}
+
 object MessageType {
 
   case object Transaction extends MessageType {
@@ -9,8 +13,6 @@ object MessageType {
   case object Summary extends MessageType {
     override val value: String = "counter-summary"
   }
-}
 
-sealed trait MessageType {
-  val value: String
+  val values: Seq[MessageType] = Seq(Transaction, Summary)
 }

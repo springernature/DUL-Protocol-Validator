@@ -12,7 +12,7 @@ case object IPClassC {
 
   def toClassC(text: String): Option[IPClassC] = {
     val parts = text.split('.').map(t => Try{t.toShort}.getOrElse(-1.toShort)).filter(num => num >= 0 && num < 255)
-    if (parts.length == 4) {
+    if (parts.length == 4 || parts.length == 3) {
       Some(IPClassC(parts(0).toByte, parts(1).toByte, parts(2).toByte))
     } else None
   }

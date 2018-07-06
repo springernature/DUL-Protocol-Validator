@@ -10,7 +10,7 @@ lazy val root = (project in file(".")).
     name := "DUL Protocol Validator",
     libraryDependencies ++= Seq(
       scalaTest % Test,
-//      `spray-json`,
+      `spray-json`,
     )
 
 

@@ -193,6 +193,7 @@
         "Transaction_Type",
         "Transaction_DateTime",
         "Transaction_Access_Method",
+        "Transaction_Access_Type",
         "User_Agent",
         "Session_ID",
         "Encoded_IP",
