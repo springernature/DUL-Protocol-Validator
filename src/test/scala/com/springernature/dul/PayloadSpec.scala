@@ -5,8 +5,11 @@ import java.time.ZonedDateTime
 import java.util.UUID
 
 import com.springernature.dul.DULJsonProtocol._
+import org.json.JSONObject
 import org.scalatest.{FlatSpec, Matchers}
 import spray.json._
+
+import scala.util.Try
 
 class PayloadSpec extends FlatSpec with Matchers {
 
@@ -117,5 +120,33 @@ class PayloadSpec extends FlatSpec with Matchers {
 
     payload.toJson.prettyPrint shouldBe expectedPayload
 
+  }
+
+  it should "generate a JSON which is validated against the schema" in {
+    val message = Message(
+      transactionId = "12312",
+      transactionDateTime = ZonedDateTime.parse("2018-07-06T14:17:50.452Z"),
+      transactionType = TransactionType.Request,
+      transactionAccessType = TransactionAccess.Type.Controlled,
+      transactionAccessMethod = TransactionAccess.Method.Regular,
+      userAgent = "foo/bar",
+      sessionID = "1231231",
+      referringURL = Some(new URL("http://foo.com/bar")),
+      encodedIP = "1231231",
+      IPClassC = IPClassC(123.toByte, 21.toByte, 121.toByte),
+      itemPlatform = "foo",
+      itemId = ItemID(ItemID.ItemTypeDOI, DOI("23", "232")),
+      articleVersion = Some("1"),
+      orgID = None
+    )
+
+    val uuid = UUID.randomUUID()
+
+    val payload = Payload(uuid, MessageType.Transaction, new URL("http://bar.com/foo"), message)
+
+    val validationResult: Try[Unit] = Try {
+      JSONSchemaValidatorUtils.schemaValidator.validate(new JSONObject(payload.toJson.compactPrint))
+    }
+    validationResult.isSuccess shouldBe true
   }
 }

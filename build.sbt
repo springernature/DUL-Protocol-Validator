@@ -9,9 +9,11 @@ lazy val root = (project in file(".")).
     )),
     name := "DUL Protocol Validator",
     libraryDependencies ++= Seq(
-      scalaTest % Test,
       `spray-json`,
+      scalaTest % Test,
+      `json-schema` % Test,
     ),
+    resolvers += "jitpack.io" at "https://jitpack.io",
     scalacOptions ++= Seq(
       "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
       "-encoding", "utf-8",                // Specify character encoding used by source files.
