@@ -4,6 +4,7 @@ package com.springernature.dul
 import java.net.URL
 import java.time.format.DateTimeFormatter
 import java.time.{ZoneId, ZonedDateTime}
+import java.util.UUID
 
 import spray.json._
 
@@ -74,7 +75,9 @@ object DULJsonProtocol extends DefaultJsonProtocol {
 
 
     override def read(json: JsValue): ZonedDateTime = json match {
-      case JsString(value) => Try{ZonedDateTime.parse(value)}.getOrElse(deserializationError("Wrong format for a timestamp"))
+      case JsString(value) => Try {
+        ZonedDateTime.parse(value)
+      }.getOrElse(deserializationError("Wrong format for a timestamp"))
       case _ => deserializationError("Date Time expected")
     }
 
@@ -110,9 +113,9 @@ object DULJsonProtocol extends DefaultJsonProtocol {
     }
   }
 
-  implicit val ItemIDFormat: RootJsonFormat[ItemID] = jsonFormat2(ItemID.apply)
+  implicit val itemIDFormat: RootJsonFormat[ItemID] = jsonFormat2(ItemID.apply)
 
-  implicit val MessageFormat: RootJsonFormat[Message] = jsonFormat(Message,
+  implicit val messageFormat: RootJsonFormat[Message] = jsonFormat(Message,
     "Transaction_ID",
     "Transaction_DateTime",
     "Transaction_Type",
@@ -128,5 +131,21 @@ object DULJsonProtocol extends DefaultJsonProtocol {
     "Article_Version",
     "Org_ID"
   )
+
+
+  implicit object UUIDFormat extends RootJsonFormat[UUID] {
+    override def write(obj: UUID): JsValue = JsString(obj.toString)
+
+    override def read(json: JsValue): UUID = json match {
+      case JsString(value) => UUID.fromString(value)
+      case _ => deserializationError("UUID expected")
+    }
+  }
+
+  implicit val payloadFormat: RootJsonFormat[Payload] = jsonFormat(Payload,
+    "uuid",
+    "message-type",
+    "callback",
+    "message")
 
 }
