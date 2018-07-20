@@ -37,7 +37,7 @@ You can find a list of different available JSON Schema validation tools here:
 [JSON Schema Validators](http://json-schema.org/implementations.html#validators).
 
 ### DTOs
-In order to have access to the _DTO_s modelling the _DUL_ protocol, you need first to add a dependency
+In order to have access to the _DTOs_ modelling the _DUL_ protocol, you need first to add a dependency
 to this project. Currently, only source code dependency is supported. Here you can find an example on how to do so:
 ```scala 
 lazy val dulProtocolValidator = RootProject(uri("git://github.com/springernature/DUL-Protocol-Validator.git"))
