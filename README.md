@@ -95,6 +95,6 @@ sbt test
 
 # License
 
-MIT
+LGPL v3.0
 
 Copyright © 2018 Springer Nature
