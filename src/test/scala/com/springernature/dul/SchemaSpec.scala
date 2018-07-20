@@ -1,11 +1,12 @@
 package com.springernature.dul
 
+import org.everit.json.schema.ValidationException
 import org.json.JSONObject
-import org.scalatest.{FlatSpec, Matchers, TryValues}
+import org.scalatest.{FlatSpec, Matchers}
 
 import scala.util.Try
 
-class SchemaSpec extends FlatSpec with Matchers with TryValues {
+class SchemaSpec extends FlatSpec with Matchers {
 
   behavior of "JSON Schema"
 
@@ -85,11 +86,10 @@ class SchemaSpec extends FlatSpec with Matchers with TryValues {
         |}
       """.stripMargin
 
-    val validationResult: Try[Unit] = Try {
+    val caught = intercept[ValidationException] {
       JSONSchemaValidatorUtils.schemaValidator.validate(new JSONObject(jsonWrongTransactionType))
     }
 
-    validationResult.isFailure shouldBe true
-    validationResult.failure.exception.getMessage should startWith ("#/message/Transaction_Type")
+    caught.getMessage should startWith ("#/message/Transaction_Type")
   }
 }
